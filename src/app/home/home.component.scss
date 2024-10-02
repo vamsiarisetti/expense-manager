@@ -1,0 +1,19 @@
+::ng-deep .p-card:hover{
+    transform: scale(1.05);
+}
+
+::ng-deep .incomeTrend:hover {
+    transform: scale(1.05);
+    // background:linear-gradient(150deg, #C33764, #1D2671 100%);
+}
+
+::ng-deep .expenseTrend:hover {
+    transform: scale(1.05);
+    // background:linear-gradient(150deg, #C33764, #1D2671 100%);
+}
+
+::ng-deep .expensePie:hover {
+    transform: scale(1.05);
+    // background:linear-gradient(150deg, #C33764, #1D2671 100%);
+    // background:linear-gradient(150deg, #46A1E6, #E693FE, #FC9472 100%);
+}

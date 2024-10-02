@@ -1,0 +1,40 @@
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center" style="height: 100vh;">
+        <div #loginForm class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="d-flex justify-content-center">
+                <p-card>
+                    <h4>Sign in to Prime Expense Manager</h4>
+                    <p-divider></p-divider>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <button pButton pRipple type="button" icon="pi pi-google" class="p-button-rounded"></button>
+                        <button pButton pRipple type="button" icon="pi pi-facebook" class="p-button-rounded ms-2"></button>
+                    </div>
+                    <p-divider align="center"><b>OR</b></p-divider>
+                    <div #email>
+                        <h6>E-Mail</h6>
+                        <input type="text" pInputText style="width: 100%;"/>
+                    </div>
+                    <div #passsword class="pt-2">
+                        <div class="d-flex justify-content-between">
+                            <h6>Password</h6>
+                            <p-button label="Forgot Password?" routerLink="/forgot-password" styleClass="p-button-link p-0"></p-button>
+                        </div>
+                        <p-password [toggleMask]="true" [inputStyle]="{'width': '100%'}" [style]="{'width': '100%'}" styleClass="p-input-icon-right"></p-password>
+                    </div>
+                    <div class="pt-2">
+                        <p-checkbox [binary]="true" inputId="binary"></p-checkbox>
+                        <label for="binary" class="ps-2">Remember me</label>
+                    </div>
+                    <div class="pt-2 d-flex justify-content-center">
+                        <button pButton pRipple label="Login" icon="pi pi-unlock" iconPos="right" class="p-button-rounded" [loading]="loading" (onClick)="login()"></button>
+                    </div>
+                    <div class="pt-2 d-flex align-items-center">
+                        New user,&nbsp;<p-button label="click here" routerLink="/register-user" styleClass="p-button-link p-0"></p-button>&nbsp;to register.
+                    </div>
+                </p-card>
+            </div>
+        </div>
+        <div class="d-none d-md-block col-md-6 col-lg-6 col-xl-6 back-img">
+        </div>
+    </div>
+</div>

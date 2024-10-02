@@ -1,0 +1,207 @@
+<div class="container-fluid">
+    <p-toolbar styleClass="p-1 sticky-top">
+        <div class="p-toolbar-group-start">
+        </div>
+        <div class="p-toolbar-group-center">
+            <h2>Prime Expen<i class="pi pi-spin pi-dollar" style="font-size: 2rem;color:#FCE623;text-shadow:2px 2px #FF0000"></i>e Tracker</h2>
+            <!-- <h2>Prime Expen<i class="pi pi-spin" style="font-size: 2rem;color:#FCE623;text-shadow:2px 2px #FF0000"><span>&#8377;</span></i>e Tracker</h2> -->
+        </div>
+        <div class="p-toolbar-group-end">
+            <p-avatar icon="pi pi-user" styleClass="me-2" size="large" shape="circle" style="cursor: pointer;"
+                (click)="menu.toggle($event)"></p-avatar>
+            <p-menu #menu [popup]="true" [model]="items"></p-menu>
+        </div>
+    </p-toolbar>
+
+    <div class="row p-2">
+        <!--Add uppdate Transactions-->
+        <div class="col-sm-12 col-md-4">
+            <div class="card shadow-lg mb-4">
+                <h6 class="ps-4 pt-4">Add/Update</h6>
+                <p-divider></p-divider>
+                <!-- <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                    <label>Name:</label>
+                    <input type="text" formControlName="name">
+                    <label>Email:</label>
+                    <input type="email" formControlName="email">
+                    <button type="submit">Submit</button>
+                  </form> -->
+                <!-- #addIncomeExpenseForm="ngForm"  -->
+                    <form class="d-flex flex-column align-items-center" (ngSubmit)="addTransaction()" [formGroup]="myForm" >
+                        <p-selectButton 
+                            formControlName="transactionType"
+                            [options]="stateOptions" 
+                            [(ngModel)]="value1"
+                            class="p-2"
+                            optionLabel="label"
+                            optionValue="value" 
+                            >
+                        </p-selectButton>
+                        <!-- [ngModelOptions]="{standalone: true}" -->
+                        <span class="p-input-icon-left px-4 py-2 w-100 categorySpan">
+                            <i class="pi pi-th-large ps-4"></i>
+                            <input type="text" pInputText placeholder="Category" formControlName="transactionCategory" class="w-100" />
+                            <div *ngIf="isFieldInvalid('name')">
+                                <small *ngIf="myForm.get('name')?.hasError('required')">Transaction Category is required.</small>
+                            </div>
+                        </span>
+
+                        <span class="p-input-icon-left  px-4 py-2 w-100">
+                            <i class="pi pi-file-edit ps-4"></i>
+                            <input id="text" pInputText placeholder="Transaction name" class="w-100" formControlName="transactionsName" />
+                            <span *ngIf="isFieldInvalid('name')">
+                                <small *ngIf="myForm.get('name')?.hasError('required')">Transaction Name is required.</small>
+                            </span>
+                        </span>
+
+                        <span class="p-input-icon-left  px-4 py-2 w-100">
+                            <i class="pi pi-dollar ps-4"></i>
+                            <input id="text" type="number" pInputText placeholder="Amount" class="w-100" formControlName="transactionAmount" />
+                            <div *ngIf="isFieldInvalid('name')">
+                                <small *ngIf="myForm.get('name')?.hasError('required')">Transaction Amount is required.</small>
+                            </div>
+                        </span>
+
+                        <span class="p-input-icon-left px-4 py-2 w-100">
+                            <i class="pi pi-calendar-plus ps-4"></i>
+                            <p-calendar inputId="basic" dateFormat="mm-dd-yy" [(ngModel)]="date1" class="w-100" formControlName="transactinDate">
+                            </p-calendar>
+                        </span>
+                        <!-- [ngModelOptions]="{standalone: true}  -->
+
+                        <div class="d-flex justify-content-center p-4">
+                            <button pButton label="Add" icon="pi pi-plus" iconPos="right"
+                                class="p-button-rounded me-2" type="submit"></button>
+                            <button pButton pRipple type="button" icon="pi pi-times" iconPos="right" label="Clear"
+                                class="p-button-outlined p-button-rounded p-button-danger" (click)="clearform()"></button>
+                        </div>
+                    </form>
+            </div>
+            <!-- <div class="expensePie card text-light shadow-lg p-4 mb-5" style="background:linear-gradient(150deg, #46A1E6, #E693FE, #FC9472 100%); border-radius: 20px;"> -->
+            <div class="expensePie card text-light shadow-lg p-4 mb-5" style="background:linear-gradient(150deg, #C33764, #1D2671 100%); border-radius: 20px;">
+                <!--Expense-->
+                <h6>Expense by Category</h6>
+                <p-chart type="doughnut" [data]="categoryExpenseData" [options]="chartOptions"></p-chart>
+                <!-- <p-chart type="doughnut" [data]="data" [options]="chartOptions"></p-chart> -->
+            </div>
+        </div>
+        <!--Stats-->
+        <div class="col-sm-12 col-md-4">
+                <div class="col">
+                <p-card styleClass="text-light shadow-lg p-3 mb-3"
+                    [style]="{'background':'linear-gradient(150deg, #C33764, #1D2671 100%', 'border-radius':'20px'}">
+                    <!-- [style]="{'background':'linear-gradient(150deg, #46A1E6, #E693FE, #FC9472 100%', 'border-radius':'20px'}"> -->
+
+                    <ng-template pTemplate="header">
+                        <h6 class="text-center pt-4">Total Balance</h6>
+                    </ng-template>
+                    <!-- <h1 class="text-center p-0">$50000</h1> -->
+                    <h1 class="text-center p-0"><span> <b>{{transactionSummaryData?.balance| currency : '&#8377;' }}</b> </span></h1>
+                    <!-- <h1 class="text-center p-0"><span> <b>{{50000 | currency : '&#8377;' }}</b> </span></h1> -->
+                    <ng-template pTemplate="footer">
+                        <div class="d-flex justify-content-between">
+                            <div class="row align-items-center">
+                                <div class="col ">
+                                    <i class="pi pi-arrow-circle-down" style="font-size: 2rem; color: #00FF3F;"></i>
+                                </div>
+                                <div class="col p-0">
+                                    <h6>Income</h6>
+                                    <span>
+                                        <h4>
+                                            <!-- $4000 -->
+                                            <!-- <span>&#8377;</span>4000 -->
+                                            <span>&#8377;</span>{{transactionSummaryData?.income}}
+                                            <!-- {{transactionSummaryData?.income| currency : '&#8377;' }} -->
+                                        </h4>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col  p-0">
+                                    <i class="pi pi-arrow-circle-up" style="font-size: 2rem; color: #FF3200;"></i>
+                                </div>
+                                <div class="col">
+                                    <h6>Expense</h6>
+                                    <span>
+                                        <h4>
+                                            <!-- $4000 -->
+                                            <!-- <span>&#8377;</span>4000 -->
+                                            <span>&#8377;</span>{{transactionSummaryData?.expense}}
+                                            <!-- {{transactionSummaryData?.expense| currency : '&#8377;' }} -->
+                                        </h4>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-card>
+            </div>
+            <!-- <div class="incomeTrend card text-light shadow-lg p-4 mb-2" style="background:linear-gradient(150deg, #46A1E6, #E693FE, #FC9472 100%); border-radius: 20px;"> -->
+            <div class="incomeTrend card text-light shadow-lg p-4 mb-2" style="background:linear-gradient(150deg, #C33764, #1D2671 100%); border-radius: 20px;">
+                <!--INcome-->
+                <h6>Income Trend</h6>
+                <p-chart type="bar" [data]="trendIncomeData" [options]="basicOptions"></p-chart>
+                <!-- <p-chart type="bar" [data]="incomeData" [options]="basicOptions"></p-chart> -->
+            </div>
+            <!-- <div class="expenseTrend card text-light shadow-lg p-4 mb-5" style="background:linear-gradient(150deg, #46A1E6, #E693FE, #FC9472 100%); border-radius: 20px;"> -->
+            <div class="expenseTrend card text-light shadow-lg p-4 mb-5" style="background:linear-gradient(150deg, #C33764, #1D2671 100%); border-radius: 20px;">
+                <!--Expense-->
+                <h6>Expense Trend</h6>
+                <p-chart type="bar" [data]="trendExpenseData" [options]="basicOptions"></p-chart>
+                <!-- <p-chart type="bar" [data]="expenseData" [options]="basicOptions"></p-chart> -->
+            </div>
+        </div>
+        <!--Trtansactions list-->
+        <div class="col-sm-12 col-md-4">
+            <div class="card">
+                <h6 class="ps-6 pt-6">Transactions</h6>
+                <p-divider></p-divider>
+                <!-- <p-virtualScroller [value]="transactions" scrollHeight="100vh" [itemSize]="100"> -->
+                <p-virtualScroller [value]="transactionData" scrollHeight="100vh" [itemSize]="100">
+                    <ng-template let-transaction pTemplate="item">
+                        <p-card styleClass="shadow-lg p-1 m-4 rounded-4 border border-primary">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <!-- <div class="p-2 rounded-circle shadow-lg text-light"  style="background:linear-gradient(150deg, #46A1E6, #E693FE, #FC9472 100%)"> -->
+                                    <div class="p-2 rounded-circle shadow-lg text-light"  style="background:linear-gradient(150deg, #C33764, #1D2671 100%)">
+                                        <i class="pi pi-credit-card" style="font-size: 2rem;"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{transaction.transactionName}}</h6>
+                                        <!-- <h6>Credit Card Loan</h6> -->
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end flex-column">
+                                    <!-- <h4><span>&#8377;</span>500</h4> -->
+                                    <!-- <h4><span>&#8377;</span>{{transaction}}</h4> -->
+                                    <!-- <span>Today</span> -->
+
+                                    <h4 *ngIf="transaction.transactionType === 'income'" style="color: #0cc839;"><span>&#8377;</span>{{transaction.transactionAmount}}</h4>
+                                    <h4 *ngIf="transaction.transactionType !== 'income'" style="color: #ff3300;"><span>&#8377;</span>{{transaction.transactionAmount}}</h4>
+                                    <!-- <h4><span>&#8377;</span>{{transaction.transactionAmount}}</h4> -->
+                                    <span *ngIf="transaction.transactionDate === currentDate">Today</span>
+                                    <span *ngIf="transaction.transactionDate !== currentDate">{{transaction.transactionDate}}</span>
+                                </div>
+                            </div>
+                        </p-card>
+                    </ng-template>
+                </p-virtualScroller>
+            </div>
+
+        </div>
+    </div>
+
+
+    <p-toolbar styleClass="p-1 fixed-bottom">
+        <div class="p-toolbar-group-start">
+        </div>
+        <div class="p-toolbar-group-center">
+            <h6><small>&copy;</small>Vamsi Arisetti</h6>
+        </div>
+        <div class="p-toolbar-group-end">
+        </div>
+    </p-toolbar>
+
+</div>

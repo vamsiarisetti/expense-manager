@@ -1,0 +1,49 @@
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center" style="height: 100vh;">
+        <div class="d-none d-md-block col-md-6 col-lg-6 col-xl-6 back-img">
+        </div>
+        <div #regForm class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="d-flex justify-content-center">
+                <p-card>
+                    <h4>Register</h4>
+                    <p-divider></p-divider>
+                    <div class="row">
+                        <div #fname class="col">
+                            <h6>First Name</h6>
+                            <input type="text" pInputText style="width: 100%;" />
+                        </div>
+                        <div #lname class="col">
+                            <h6>Last Name</h6>
+                            <input type="text" pInputText style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div #email class="pt-2">
+                        <h6>E-Mail</h6>
+                        <input type="text" pInputText style="width: 100%;" />
+                    </div>
+                    <div #passsword class="row pt-2">
+                        <div class="col">
+                            <h6>Password</h6>
+                            <p-password [toggleMask]="true" [feedback]="true" [inputStyle]="{'width': '100%'}"
+                                [style]="{'width': '100%'}" styleClass="p-input-icon-right"></p-password>
+                        </div>
+                        <div class="col">
+                            <h6>Confirm Password</h6>
+                            <p-password [toggleMask]="true" [inputStyle]="{'width': '100%'}" [style]="{'width': '100%'}"
+                                styleClass="p-input-icon-right"></p-password>
+                        </div>
+                    </div>
+                    <div class="pt-4 d-flex justify-content-center">
+                        <button pButton pRipple label="Register" icon="pi pi-unlock" iconPos="right"
+                            class="p-button-rounded" [loading]="loading" (onClick)="signup()"></button>
+                    </div>
+                    <div class="pt-2 d-flex align-items-center">
+                        Already have an account,&nbsp;<p-button label="click here" routerLink="/sign-in"
+                            styleClass="p-button-link p-0"></p-button>&nbsp;to login.
+                    </div>
+                </p-card>
+            </div>
+        </div>
+
+    </div>
+</div>
